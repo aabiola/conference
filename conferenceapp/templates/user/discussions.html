@@ -1,0 +1,73 @@
+{% extends 'user/layout.html' %}
+{% block pagecontent %}>
+
+<section class="page-section bg-light" style="min-height:90vh">
+    <div class="container-fluid">
+ <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div class="border-end bg-white" id="sidebar-wrapper">
+                 
+                <div class="border-end bg-white" id="sidebar-wrapper">
+                 
+                    {% include 'user/sidenav.html' %}
+                 </div>
+            </div>
+            <!-- Page content wrapper-->
+            <div id="page-content-wrapper">
+                
+                <!-- Page content-->
+                <div class="container-fluid">
+                    <h1 class="mt-4">All Posts</h1>
+                    <p>You can join the discussion by clicking on any of the post titles here.Enjoy yourself and prepare for the conference, we can't wait to see you in person!</p>
+
+ 
+                     
+                </div>
+
+                <div class="container">
+                                       <div class="row">
+
+<div class="col-10 offset-1">
+    
+   <div class="table-responsive">
+
+<table class="table table-striped" width="80%">
+    <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Posted By</th> 
+    </tr>
+    {% if posts %}
+    {% for b in posts%}
+    <tr>
+        <td>{{ loop.index }}</td>     
+        <td><a href="/post/details/{{b.p_id}}">{{ b.p_title }}</a></td>
+        <td>{{ b.p_date}}</td>
+        <td>{{ b.duser.user_fname }}</td>
+   </tr>            
+    {% endfor %}
+    {% else %}
+    <tr><td colspan="6" class="bg-info"> No Post made yet</td></tr>
+    {% endif %}
+</table>
+     
+   </div>
+</div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center">
+                            
+                           
+                        </div>
+                    </div>
+                </div>
+
+                
+
+            </div>
+        </div>    
+    </div>
+</section>
+       
+{% endblock%}

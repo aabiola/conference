@@ -1,0 +1,139 @@
+{% extends 'user/layout.html' %}
+{% block pagecontent %}
+
+<section class="page-section bg-light" style="min-height:90vh">
+    <div class="container-fluid">
+ <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div class="border-end bg-white" id="sidebar-wrapper">
+                 
+              <div class="border-end bg-white" id="sidebar-wrapper">
+                 
+                {% include 'user/sidenav.html' %}
+             </div>
+            </div>
+            <!-- Page content wrapper-->
+            <div id="page-content-wrapper" style="width:100% ">
+                
+                <!-- Page content-->
+                <div class="container-fluid">
+                   <div class="row">
+                       <div class="col">
+                        <h1 class="mt-4">Post Details</h1>
+                        <p >Join our ongoing hot discussion,</p>
+                       </div>
+                    </div>                     
+                </div>
+
+                <div class="container-fluid">
+ 
+<div class="col-10 offset-1">
+
+  <div class="row">
+    <div class="col-md-2">
+        <label class="text-bold">Post Title</label>
+
+      </div>
+      <div class="col-md-8">
+        {{ postdeets.p_title }}
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+        <label>Post Description</label>
+       
+      </div>
+      <div class="col-md-8">
+       <p> {{ postdeets.p_desc }}</p>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+        <label for="inputEmail4" class="form-label">Post Date</label>
+       
+      </div>
+      <div class="col-md-8">
+       <p> {{ postdeets.p_date }}</p>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+        <label for="inputEmail4" class="form-label">Posted By</label>
+       
+      </div>
+      <div class="col-md-8">
+       <p> {{ postdeets.duser.user_fname }} </p>
+
+
+       <input type="hidden" id="postid" name="postid" value="{{ postdeets.p_id }}">
+
+
+       {{ commentdeets }}
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+        <h2>Comments <span id="counting">5</span></h2> 
+    </div>
+  </div>
+   
+  <div class="row">
+    <div class="col-md-6">
+        <textarea class="form-control" id="comment"></textarea>
+    </div>
+    <div class="col-md-6">
+        <button class="btn btn-danger" id="btnpost">Post Comment</button>
+    </div>
+  </div> 
+  <div id="mycomment">
+    {% for c in commentdeets %}
+  <div class="row">
+    <div class="col">
+       <p>{{ c.c_comment }}</p>
+
+    </div>
+    <div class="col">
+      <p>{{ c.c_date }}</p>
+      
+   </div>
+  </div>
+  {% endfor %}
+</div>
+ 
+  
+ 
+</div>
+                    
+                </div>
+
+                
+
+            </div>
+        </div>    
+    </div>
+</section>
+
+<script src="{{ url_for('static',filename='js/jquery.js')}}"></script>
+
+<script>
+$(document).ready(function(){
+   $('#btnpost').click(function(){
+       var usercomment = $('#comment').val()
+       var postid = $('#postid').val()
+       var csrf = "{{ csrf_token() }}"
+       var data = {"comment":usercomment, "csrf_token":csrf,"postid":postid}
+       $.ajax({
+           url:"/post/comment",
+           data:data,
+           type:'post',
+           success:function(msg){
+               $('#mycomment').prepend("<div class='row'><div class='col'>"+msg+"</div></div>")
+           },
+           error:function(err){
+               console.log(err)
+           }
+       })
+   })
+})
+</script>
+ {% endblock %}

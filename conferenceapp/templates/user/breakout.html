@@ -1,0 +1,90 @@
+{% extends 'user/layout.html' %}
+{% block pagecontent %}>
+
+<section class="page-section bg-light" style="min-height:90vh">
+    <div class="container-fluid">
+ <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div class="border-end bg-white" id="sidebar-wrapper">
+                 
+                <div class="border-end bg-white" id="sidebar-wrapper">
+                 
+                    {% include 'user/sidenav.html' %}
+                 </div>
+            </div>
+            <!-- Page content wrapper-->
+            <div id="page-content-wrapper">
+                
+                <!-- Page content-->
+                <div class="container-fluid">
+                    <h1 class="mt-4">Break Out Sessions</h1>
+                    <p>Edit your profile by completing the form below.Edit your profile by completing the form below.Edit your profile by completing the form below.Edit your profile by completing the form below.</p>
+
+ 
+                     
+                </div>
+
+                <div class="container">
+                                       <div class="row">
+
+<div class="col-10 offset-1">
+    {{ userdeets.mybreakouts }}
+    {% set mybreak = [1,5] %}
+   <div class="table-responsive">
+<form action="/user/regbreakout" method="post">
+<table class="table table-striped" width="80%">
+    <tr>
+        <th>#</th>
+        <th><input type="checkbox" id="selectall"></th>
+        <th>Title</th>
+        <th>Skill Level</th>
+        <th>Icon</th>
+        <th>Action</th>
+    </tr>
+            {% if breakouts %}
+            {% for b in breakouts%}
+        <tr>
+        <td>{{ loop.index }}</td>
+        <td><input type="checkbox" name="bid" value="{{b.break_id }}"></td>
+        <td>{{ b.break_title }}</td>
+        <td>{{ b.skillobj.skill_name}}</td>
+        <td>
+            {% if b.break_picture==''%}
+            <img src="/static/assets/img/portfolio/1.jpg" width="100">
+            {% else %}
+            <img src="/static/assets/img/{{b.break_picture}}" width="100">
+                  {% endif%}
+                 
+                 </td>
+                <td>
+         <a href="/user/breakout/{{b.break_id}}">Details</a></td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr><td colspan="6" class="bg-info"> No Breakout session added for your skill level yet</td></tr>
+            {% endif %}
+            
+        </table>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token()}}">
+        <button class="btn btn-outline-primary btn-lg">Sign Up For Selected Sessions</button>
+      </form>
+   
+   </div>
+</div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center">
+                            
+                           
+                        </div>
+                    </div>
+                </div>
+
+                
+
+            </div>
+        </div>    
+    </div>
+</section>
+       
+{% endblock%}

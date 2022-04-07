@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Developers Conference 2022</title>
+
+<!-- Font Awesome icons (free version)-->
+<script src="{{ url_for('static', filename='js/all.js')}}"></script>
+
+<!-- Core theme CSS (includes Bootstrap)-->
+<link href="{{ url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        
+        <div class="col-8 offset-2">
+            <h2 class="text-center mb-4">Donate Here</h2>
+           
+            <form method="post" id="paymentForm">
+                <div class="row mb-3">
+                    <p>You are about to make donation as follows:</p>
+                </div>
+                <div class="row mb-1">
+                    <p><b>Fullname of Donor:</b> {{ data.fullname }}</p>
+                </div>
+                <div class="row mb-1">
+                    <p><b>Email Address:</b> <span>{{ data.email }}</span></p>
+                </div>
+                <div class="row mb-1">
+                    <p><b>Reference No: </b> {{ data.ref }}<span style="color:red">   Please keep this</span></p>
+                </div>
+                <div class="row mb-1">
+                    <p><b>Amount:</b> <span id="payamt">{{ data.amt }}</span></p>
+                </div>
+                <div class="row mb-1">
+                    <button class="btn btn-lg btn-danger"> Pay Now</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://js.paystack.co/v1/inline.js"></script> 
+<script>
+const paymentForm = document.getElementById('paymentForm');
+
+paymentForm.addEventListener("submit", payWithPaystack, false);
+
+function payWithPaystack(e) {
+
+  e.preventDefault();
+
+  let handler = PaystackPop.setup({
+
+    key: 'pk_test_b1d50ec6519c3894f51dfc33b30efb609d6b9a98', // Replace with your public key
+
+    email: "{{ data.email }}",
+
+    amount: document.getElementById("payamt").innerHTML * 100,
+
+    ref: "{{ data.ref }}",
+
+    // label: "Optional string that replaces customer email"
+
+    onClose: function(){
+
+      alert('Window closed.');
+
+    },
+
+    callback: function(response){
+
+      let message = 'Payment complete! Reference: ' + response.reference;
+
+      console.log(response);
+      
+      //
+
+    }
+
+  });
+
+  handler.openIframe();
+
+}
+</script>
+</body>
+</html>

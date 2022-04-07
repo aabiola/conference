@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check Availability</title>
+<script src="{{ url_for('static', filename='js/all.js')}}"></script>
+
+<!-- Core theme CSS (includes Bootstrap)-->
+<link href="{{ url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+<div class="row my-3">
+<div class="col-md-10">
+    <h2>Sign Up Form</h2>
+<form>
+<div class=" row mb-2">
+<div class="col-2">
+    <label>Choose State</label>
+</div>
+<div class="col">
+    <select name="state" class="form-control" id="state">
+        <option value="">Choose State</option>
+        {% for s in states %}
+        <option value="{{s.state_id}}">
+            {{ s.state_name }}
+        </option>
+        {% endfor %}
+    </select>
+</div>
+</div>
+<div class=" row mb-2">
+<div class="col-2">
+    <label>Select LGA</label>
+</div>
+<div class="col" id="lga">  </div>
+</div>
+<div class=" row mb-2">
+<div class="col">
+    <button class="btn btn-success" id="btnsubmit">Submit Form</button>
+</div>
+    
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<script src="{{ url_for('static',filename='js/jquery.js')}}"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#state').change(function(){
+        var stateid = $(this).val()
+        var csrf= "{{ csrf_token() }}"
+        data2send = {"stateid":stateid,"csrf_token":csrf}
+        //make ajax call
+        $.ajax({
+            url:"/demo/lga",
+            data:data2send,
+            type:'post',
+            success:function(msg){
+            $('#lga').html(msg)
+            }            
+        })
+    })
+})
+</script>
+</body>
+</html>

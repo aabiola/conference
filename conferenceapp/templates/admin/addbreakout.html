@@ -1,0 +1,44 @@
+{% extends 'admin/admin_layout.html'%}
+{% block content %}
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Add Break Out Session</h1>
+        {% with m = get_flashed_messages()%}
+        {% if m %}
+      <p class="alert alert-info">  {{ m }}</p>
+        {% endif %}
+        {% endwith%}
+         
+      </div>
+
+      
+
+<div style="text-align:right"><a href="/admin/breakout">All Breakout Sessions</a></div>
+      
+
+    <form method="post" enctype="multipart/form-data" action="">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Upload an Image</label>
+    <input type="file" class="form-control" name="pic">
+     
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Title</label>
+    <input type="text" class="form-control" name="title">
+  </div>
+ <div class="mb-3">
+   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="exampleInputPassword1" class="form-label">Skill Level</label>
+    <select name="level" class="form-control">
+        <option value="1" >Junior Developer</option>
+        <option value="2" >Intermediate Developer</option>
+        <option value="3" >Expert</option>
+    </select>
+  </div>
+  <div class="mb-3" style="text-align:right">
+    <button class="btn btn-lg btn-success">Add Session</button>
+  </div>
+</form>
+
+    </main>
+ {% endblock %}
